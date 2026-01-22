@@ -62,6 +62,8 @@ async function startServer() {
   }
 }
 
+export default app;
+
 // Handle crashes gracefully
 process.on('uncaughtException', (error) => {
   logger.error('Uncaught Exception', error);
