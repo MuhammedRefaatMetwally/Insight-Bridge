@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"  # Your build script, e.g., "tsc" to compile TS to JS
+  functions = "functions"    # Directory for your functions
+  publish = "dist"           # If you have a build output dir; adjust if needed (e.g., for static files if any)
+
+[[redirects]]
+  from = "/api/*"                # Proxy all requests to the API function
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
