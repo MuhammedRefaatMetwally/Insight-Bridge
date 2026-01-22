@@ -6,7 +6,6 @@ export class AIService {
   private summaryModel: any;
   private embeddingModel: any;
   
-  // Rate limiting (optimized for free tier)
   private requestCount = 0;
   private requestResetTime = Date.now() + 60000;
   private readonly MAX_REQUESTS_PER_MINUTE = 10; // Very conservative for free tier

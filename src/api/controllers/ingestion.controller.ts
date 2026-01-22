@@ -8,8 +8,6 @@ export class IngestionController {
   private ingestionService = new IngestionService();
   private articlesRepo = new ArticlesRepository();
 
-  // POST /api/ingestion/start
-  // Start the ingestion process
   startIngestion = async (req: Request, res: Response) => {
     const { category = 'general', max = 10 } = req.body;
 
@@ -24,8 +22,7 @@ export class IngestionController {
     });
   };
 
-  // POST /api/ingestion/search
-  // Search and ingest specific news
+
   searchAndIngest = async (req: Request, res: Response) => {
     const { query, max = 10 } = req.body;
 
@@ -44,8 +41,6 @@ export class IngestionController {
     });
   };
 
-  // GET /api/articles
-  // Get all articles with pagination
   getArticles = async (req: Request, res: Response) => {
     const limit = parseInt(req.query.limit as string) || 50;
     const offset = parseInt(req.query.offset as string) || 0;
@@ -65,8 +60,7 @@ export class IngestionController {
     });
   };
 
-  // GET /api/articles/:id
-  // Get one article by ID
+
   getArticleById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -82,13 +76,10 @@ export class IngestionController {
     });
   };
 
-  // GET /api/articles/:id/similar
-  // Find similar articles using AI
   findSimilar = async (req: Request, res: Response) => {
     const { id } = req.params;
     const limit = parseInt(req.query.limit as string) || 10;
 
-    // Get the source article with its embedding
     const article = await this.articlesRepo.getById(id);
 
     if (!article) {
@@ -99,11 +90,9 @@ export class IngestionController {
       throw new AppError('Article has no embedding', 400);
     }
 
-    // CRITICAL FIX: Parse the embedding correctly
     let embeddingArray: number[];
 
     if (typeof article.embedding === 'string') {
-      // If it's a string, parse it
       try {
         // Remove any extra quotes and parse
         const cleanedStr = article.embedding.replace(/^"|"$/g, '');
@@ -116,7 +105,6 @@ export class IngestionController {
         throw new AppError('Invalid embedding format', 500);
       }
     } else if (Array.isArray(article.embedding)) {
-      // If it's already an array, use it directly
       embeddingArray = article.embedding;
     } else {
       logger.error('Unexpected embedding type', { 
@@ -126,7 +114,6 @@ export class IngestionController {
       throw new AppError('Invalid embedding type', 500);
     }
 
-    // Verify it's a valid array of numbers
     if (!Array.isArray(embeddingArray) || embeddingArray.length === 0) {
       throw new AppError('Invalid embedding array', 500);
     }
@@ -136,10 +123,8 @@ export class IngestionController {
       embeddingLength: embeddingArray.length 
     });
 
-    // Find similar articles
     const similar = await this.articlesRepo.findSimilar(embeddingArray, limit + 1);
 
-    // Remove the source article from results
     const filtered = similar.filter(a => a.id !== id);
 
     res.json({
@@ -151,8 +136,7 @@ export class IngestionController {
     });
   };
 
-  // GET /api/stats
-  // Get ingestion statistics
+  
   getStats = async (req: Request, res: Response) => {
     const stats = await this.ingestionService.getStats();
 
@@ -162,8 +146,7 @@ export class IngestionController {
     });
   };
 
-  // GET /api/health
-  // Health check
+  
   healthCheck = async (req: Request, res: Response) => {
     res.json({
       success: true,

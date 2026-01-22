@@ -11,7 +11,7 @@ import { testConnection } from './db/repositories/connection';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(helmet());        // Security headers
+app.use(helmet());        
 app.use(cors({
   origin: 'http://localhost:3000', 
   methods: ['GET', 'POST'],
@@ -67,9 +67,7 @@ async function startServer() {
   }
 }
 
-export default app;
 
-// Handle crashes gracefully
 process.on('uncaughtException', (error) => {
   logger.error('Uncaught Exception', error);
   process.exit(1);

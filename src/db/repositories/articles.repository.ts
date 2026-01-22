@@ -15,7 +15,6 @@ export interface Article {
 }
 export class ArticlesRepository {
   
-  // Save a new article to database
   async create(article: {
   title: string;
   summary: string;
@@ -24,7 +23,7 @@ export class ArticlesRepository {
   embedding: number[];
   source?: string;
   category?: string;
-  image?: string;  // ✅ Add this parameter
+  image?: string;  
 }): Promise<Article> {
   try {
     if (!Array.isArray(article.embedding)) {
@@ -49,7 +48,7 @@ export class ArticlesRepository {
       embeddingStr,
       article.source || null,
       article.category || null,
-      article.image || null,  // ✅ Add this
+      article.image || null,  
     ];
 
     const result = await query(sql, values);
@@ -61,7 +60,6 @@ export class ArticlesRepository {
   }
 }
 
-  // Check if an article already exists (by URL)
   async existsByUrl(url: string): Promise<boolean> {
     try {
       const sql = 'SELECT EXISTS(SELECT 1 FROM news_articles WHERE url = $1)';
@@ -73,7 +71,6 @@ export class ArticlesRepository {
     }
   }
 
-  // Get all articles (with pagination)
   async getAll(limit: number = 50, offset: number = 0): Promise<Article[]> {
     try {
       const sql = `
@@ -90,7 +87,6 @@ export class ArticlesRepository {
     }
   }
 
-  // Get one article by ID (with embedding)
   async getById(id: string): Promise<Article | null> {
     try {
       const sql = 'SELECT * FROM news_articles WHERE id = $1';
@@ -102,10 +98,8 @@ export class ArticlesRepository {
     }
   }
 
-  // Find similar articles using vector search
   async findSimilar(embedding: number[], limit: number = 10): Promise<Article[]> {
     try {
-      // Validate input
       if (!Array.isArray(embedding)) {
         throw new Error(`Embedding must be an array, got ${typeof embedding}`);
       }
@@ -114,7 +108,6 @@ export class ArticlesRepository {
         throw new Error('Embedding array cannot be empty');
       }
 
-      // Check if all elements are numbers
       if (!embedding.every(n => typeof n === 'number')) {
         throw new Error('Embedding must contain only numbers');
       }
@@ -125,7 +118,6 @@ export class ArticlesRepository {
         limit 
       });
 
-      // Format embedding as [0.1,0.2,0.3] without JSON.stringify
       const embeddingStr = `[${embedding.join(',')}]`;
 
       const sql = `
@@ -147,7 +139,6 @@ export class ArticlesRepository {
     }
   }
 
-  // Count total articles
   async count(): Promise<number> {
     try {
       const sql = 'SELECT COUNT(*) FROM news_articles';

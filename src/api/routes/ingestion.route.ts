@@ -4,7 +4,6 @@ import { IngestionController } from '../controllers/ingestion.controller';
 const router = Router();
 const controller = new IngestionController();
 
-// Wrap async functions to catch errors automatically
 const catchAsync = (fn: Function) => (req: any, res: any, next: any) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
