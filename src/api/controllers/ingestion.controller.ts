@@ -9,7 +9,7 @@ export class IngestionController {
   private articlesRepo = new ArticlesRepository();
 
   startIngestion = async (req: Request, res: Response) => {
-    const { category = 'general', max = 10 } = req.body;
+    const { category = 'general', max = 5 } = req.body;
 
     logger.info('Ingestion request received', { category, max });
 
@@ -24,7 +24,7 @@ export class IngestionController {
 
 
   searchAndIngest = async (req: Request, res: Response) => {
-    const { query, max = 10 } = req.body;
+    const { query, max = 5 } = req.body;
 
     if (!query) {
       throw new AppError('Query is required', 400);
@@ -78,7 +78,7 @@ export class IngestionController {
 
   findSimilar = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const limit = parseInt(req.query.limit as string) || 5;
 
     const article = await this.articlesRepo.getById(id as string);
 

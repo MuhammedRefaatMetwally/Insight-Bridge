@@ -30,7 +30,7 @@ export class IngestionService {
    * 2. For each article: Summarize + Create Embedding (using AI)
    * 3. Save to database
    */
-  async ingestNews(category: string = 'general', max: number = 10): Promise<IngestionResult> {
+  async ingestNews(category: string = 'general', max: number = 5): Promise<IngestionResult> {
     logger.info(`Starting ingestion: ${category} (${max} articles)`);
 
     // Warn if requesting too many articles
@@ -129,7 +129,7 @@ export class IngestionService {
   }
 
   // Search for news and ingest it
-  async searchAndIngest(query: string, max: number = 10): Promise<IngestionResult> {
+  async searchAndIngest(query: string, max: number = 5): Promise<IngestionResult> {
     logger.info(`Searching and ingesting: "${query}"`);
 
     // Warn if requesting too many articles

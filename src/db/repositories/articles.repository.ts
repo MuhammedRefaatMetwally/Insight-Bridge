@@ -98,7 +98,7 @@ export class ArticlesRepository {
     }
   }
 
-  async findSimilar(embedding: number[], limit: number = 10): Promise<Article[]> {
+  async findSimilar(embedding: number[], limit: number = 5): Promise<Article[]> {
     try {
       if (!Array.isArray(embedding)) {
         throw new Error(`Embedding must be an array, got ${typeof embedding}`);
@@ -143,7 +143,7 @@ export class ArticlesRepository {
     try {
       const sql = 'SELECT COUNT(*) FROM news_articles';
       const result = await query(sql);
-      return parseInt(result[0].count, 10);
+      return parseInt(result[0].count, 5);
     } catch (error) {
       logger.error('Failed to count articles', error);
       throw error;

@@ -29,7 +29,7 @@ export class NewsService {
     logger.info('News Service ready 📰');
   }
 
-  async fetchNews(category: string = 'general', max: number = 10): Promise<NewsArticle[]> {
+  async fetchNews(category: string = 'general', max: number = 5): Promise<NewsArticle[]> {
     try {
       logger.info(`Fetching ${max} articles from category: ${category}`);
 
@@ -51,7 +51,7 @@ export class NewsService {
     }
   }
 
-  async searchNews(query: string, max: number = 10): Promise<NewsArticle[]> {
+  async searchNews(query: string, max: number = 5): Promise<NewsArticle[]> {
     try {
       logger.info(`Searching news for: "${query}"`);
 

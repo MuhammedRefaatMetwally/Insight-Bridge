@@ -8,7 +8,7 @@ export class AIService {
   
   private requestCount = 0;
   private requestResetTime = Date.now() + 60000;
-  private readonly MAX_REQUESTS_PER_MINUTE = 10; // Very conservative for free tier
+  private readonly MAX_REQUESTS_PER_MINUTE = 5; // Very conservative for free tier
   private lastRequestTime = 0;
   private readonly MIN_REQUEST_INTERVAL = 6000; // 6 seconds between requests
 
