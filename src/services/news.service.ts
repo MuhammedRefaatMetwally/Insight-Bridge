@@ -5,15 +5,11 @@ export interface NewsArticle {
   description: string;
   content: string;
   url: string;
-  image: string;
   publishedAt: string;
+  image: string;
   source: {
     name: string;
   };
-}
-
-interface GNewsResponse {
-  articles: NewsArticle[];
 }
 
 export class NewsService {
@@ -29,7 +25,10 @@ export class NewsService {
     logger.info('News Service ready 📰');
   }
 
-  async fetchNews(category: string = 'general', max: number = 5): Promise<NewsArticle[]> {
+  /**
+   * Fetch top news headlines - max 3 articles
+   */
+  async fetchNews(category: string = 'general', max: number = 3): Promise<NewsArticle[]> {
     try {
       logger.info(`Fetching ${max} articles from category: ${category}`);
 
@@ -41,8 +40,8 @@ export class NewsService {
         throw new Error(`GNews API error: ${response.status}`);
       }
 
-      const data = await response.json() as GNewsResponse;
-      logger.info(`Fetched ${data.articles.length} articles ✅`);
+      const data = await response.json();
+      logger.info(`✅ Fetched ${data.articles.length} articles`);
       
       return data.articles;
     } catch (error) {
@@ -51,7 +50,10 @@ export class NewsService {
     }
   }
 
-  async searchNews(query: string, max: number = 5): Promise<NewsArticle[]> {
+  /**
+   * Search for specific news - max 3 articles
+   */
+  async searchNews(query: string, max: number = 3): Promise<NewsArticle[]> {
     try {
       logger.info(`Searching news for: "${query}"`);
 
@@ -63,8 +65,8 @@ export class NewsService {
         throw new Error(`GNews API error: ${response.status}`);
       }
 
-      const data = await response.json() as GNewsResponse;
-      logger.info(`Found ${data.articles.length} articles ✅`);
+      const data = await response.json();
+      logger.info(`✅ Found ${data.articles.length} articles`);
       
       return data.articles;
     } catch (error) {
