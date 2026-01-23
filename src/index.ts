@@ -10,11 +10,19 @@ import { testConnection } from "./db/repositories/connection";
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: '*' }));  // Restrict origins in prod for security, e.g., ['http://localhost:3000', 'https://your-frontend.com']
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN?.split(',') || [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    /\.vercel\.app$/, // Allow all Vercel deployments
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Log all requests
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.path}`);
   next();
@@ -41,6 +49,42 @@ app.get('/health', async (req, res) => {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
+const startServer = async () => {
+  try {
+    // Test database connection
+    logger.info('Testing database connection...');
+    const dbConnected = await testConnection();
+    
+    if (!dbConnected) {
+      throw new Error('Database connection failed');
+    }
+
+    logger.info('Database connection successful');
+
+    if (!process.env.VERCEL) {
+      app.listen(PORT, () => {
+        logger.info(`Server running on: http://localhost:${PORT}`);
+
+        logger.info('Available endpoints:', {
+          root: `http://localhost:${PORT}`,
+          health: `http://localhost:${PORT}/api/health`,
+          ingestion: `http://localhost:${PORT}/api/ingestion/start`,
+          articles: `http://localhost:${PORT}/api/articles`
+        });
+      });
+    } else {
+      logger.info('Running on Vercel - serverless mode');
+    }
+
+  } catch (error) {
+    logger.error('Failed to start server', error);
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
+  }
+};
+
+
 process.on("uncaughtException", (error) => {
   logger.error("Uncaught Exception", error);
 });
@@ -48,5 +92,7 @@ process.on("uncaughtException", (error) => {
 process.on("unhandledRejection", (error) => {
   logger.error("Unhandled Rejection", error);
 });
+
+startServer();
 
 export default app;
