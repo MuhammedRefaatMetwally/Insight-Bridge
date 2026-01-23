@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import "./utils/config";
+import "./utils/config.js";
 import routes from "./api/routes/ingestion.route";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandlers";
 import { logger } from "./utils/logger.js";
