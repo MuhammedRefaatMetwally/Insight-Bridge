@@ -7,15 +7,15 @@
 [![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-Transform raw news into intelligent, searchable content in **30 seconds**.
+# Transform raw news into intelligent, searchable content.
 
 ---
 
 ## ✨ Features
 
-- 🤖 **AI Summarization** - Google Gemini 1.5 Flash
+- 🤖 **AI Summarization** - Google Gemini 2.5 Flash
 - 🔍 **Semantic Search** - 768-dimensional embeddings + vector similarity
-- ⚡ **Blazing Fast** - 3 articles in 30 seconds
+- ⚡ ** Fast** - 3 articles in maybe 30 seconds.
 - 🗄️ **Neon Postgres** - Serverless database with pgvector
 - 🏗️ **Production Ready** - TypeScript, layered architecture, ESM modules
 - 🌐 **Deploy Anywhere** - Vercel, Railway, Render, or any Node.js platform
@@ -184,8 +184,6 @@ curl http://localhost:3000/api/articles/{article-id}/similar
 ---
 
 ## 🎉 What Makes It Special?
-
-- ⚡ **Optimized for Speed** - No rate limiting, pure performance
 - 🎯 **Smart Limits** - Max 3 articles for instant results
 - 🤖 **Dual AI Processing** - Parallel summary + embedding generation
 - 🔍 **Semantic Search** - Find similar articles using ML
