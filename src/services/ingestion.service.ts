@@ -50,7 +50,7 @@ export class IngestionService {
 
       // Show rate limit status before starting
       const rateLimitStatus = this.aiService.getRateLimitStatus();
-      logger.info(`API quota: ${rateLimitStatus.requestsRemaining} requests remaining (resets in ${rateLimitStatus.resetIn}s)`);
+      logger.info(`API quota: ${rateLimitStatus.dailyRequestsRemaining} requests remaining (resets in ${rateLimitStatus.dailyResetIn}s)`);
 
       // Step 2 & 3: Process each article
       for (let i = 0; i < articles.length; i++) {
@@ -83,7 +83,7 @@ export class IngestionService {
             embedding: embedding,
             source: article.source.name,
             category: category,
-            image: article.image || null,
+            image: article.image ?? undefined,
           });
 
           success++;
@@ -147,7 +147,7 @@ export class IngestionService {
 
       // Show rate limit status
       const rateLimitStatus = this.aiService.getRateLimitStatus();
-      logger.info(`API quota: ${rateLimitStatus.requestsRemaining} requests remaining (resets in ${rateLimitStatus.resetIn}s)`);
+      logger.info(`API quota: ${rateLimitStatus.dailyRequestsRemaining} requests remaining (resets in ${rateLimitStatus.dailyResetIn}s)`);
 
       for (let i = 0; i < articles.length; i++) {
         const article = articles[i];
@@ -171,7 +171,7 @@ export class IngestionService {
             publishedAt: new Date(article.publishedAt),
             embedding: embedding,
             source: article.source.name,
-            image: article.image || null,
+            image: article.image ?? undefined,
           });
 
           success++;

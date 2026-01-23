@@ -5,11 +5,15 @@ export interface NewsArticle {
   description: string;
   content: string;
   url: string;
-  image:string,
+  image: string;
   publishedAt: string;
   source: {
     name: string;
   };
+}
+
+interface GNewsResponse {
+  articles: NewsArticle[];
 }
 
 export class NewsService {
@@ -37,7 +41,7 @@ export class NewsService {
         throw new Error(`GNews API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = await response.json() as GNewsResponse;
       logger.info(`Fetched ${data.articles.length} articles ✅`);
       
       return data.articles;
@@ -59,7 +63,7 @@ export class NewsService {
         throw new Error(`GNews API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = await response.json() as GNewsResponse;
       logger.info(`Found ${data.articles.length} articles ✅`);
       
       return data.articles;

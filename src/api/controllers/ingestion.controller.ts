@@ -64,7 +64,7 @@ export class IngestionController {
   getArticleById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const article = await this.articlesRepo.getById(id);
+    const article = await this.articlesRepo.getById(id as string);
 
     if (!article) {
       throw new AppError('Article not found', 404);
@@ -80,7 +80,7 @@ export class IngestionController {
     const { id } = req.params;
     const limit = parseInt(req.query.limit as string) || 10;
 
-    const article = await this.articlesRepo.getById(id);
+    const article = await this.articlesRepo.getById(id as string);
 
     if (!article) {
       throw new AppError('Article not found', 404);
@@ -95,11 +95,11 @@ export class IngestionController {
     if (typeof article.embedding === 'string') {
       try {
         // Remove any extra quotes and parse
-        const cleanedStr = article.embedding.replace(/^"|"$/g, '');
+        const cleanedStr = (article.embedding as string).replace(/^"|"$/g, '');
         embeddingArray = JSON.parse(cleanedStr);
       } catch (error) {
         logger.error('Failed to parse embedding string', { 
-          embedding: article.embedding.substring(0, 100),
+          embedding: (article.embedding as string).substring(0, 100),
           error 
         });
         throw new AppError('Invalid embedding format', 500);
