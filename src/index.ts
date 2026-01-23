@@ -46,7 +46,7 @@ async function startServer() {
     process.exit(1);
   }
 }
-export default app;
+
 
 process.on("uncaughtException", (error) => {
   logger.error("Uncaught Exception", error);
@@ -58,4 +58,4 @@ process.on("unhandledRejection", (error) => {
   process.exit(1);
 });
 
-startServer();
+export default app;
