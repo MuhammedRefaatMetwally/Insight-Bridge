@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { IngestionService } from '../../services/ingestion.service.js';
 import { ArticlesRepository } from '../../db/repositories/articles.repository.js';
 import { logger } from '../../utils/logger.js';
-import { AppError } from '../../middleware/errorHandlers';
+import { AppError } from '../../middleware/errorHandlers.js';
 
 export class IngestionController {
   private ingestionService = new IngestionService();

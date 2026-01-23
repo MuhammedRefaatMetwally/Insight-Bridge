@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { IngestionController } from '../controllers/ingestion.controller';
+import { IngestionController } from '../controllers/ingestion.controller.js';
 
 const router = Router();
 const controller = new IngestionController();
