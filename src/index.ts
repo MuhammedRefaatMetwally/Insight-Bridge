@@ -94,6 +94,5 @@ process.on("unhandledRejection", (error) => {
   logger.error("Unhandled Rejection", error);
 });
 
-startServer();
 
 export default app;
