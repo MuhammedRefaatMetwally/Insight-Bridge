@@ -8,6 +8,7 @@ import { logger } from "./utils/logger.js";
 import { testConnection } from "./db/repositories/connection.js";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
 const corsOptions = {
