@@ -8,10 +8,9 @@ import { logger } from "./utils/logger.js";
 import { testConnection } from "./db/repositories/connection";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: '*' }));  // Restrict origins in prod for security, e.g., ['http://localhost:3000', 'https://your-frontend.com']
 
 app.use(express.json());
 
@@ -25,37 +24,29 @@ app.use("/api", routes);
 
 app.get('/', (req, res) => res.send('API is running!'));
 
+app.get('/health', async (req, res) => {
+  try {
+    const connected = await testConnection();
+    if (connected) {
+      res.status(200).send('DB connected successfully');
+    } else {
+      res.status(500).send('DB connection failed');
+    }
+  } catch (error) {
+    logger.error("Health check failed", error);
+    res.status(500).send('Health check error');
+  }
+});
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-async function startServer() {
-  try {
-    logger.info("Testing database connection...");
-    const connected = await testConnection();
-
-    if (!connected) {
-      throw new Error("Database connection failed");
-    }
-
-    app.listen(PORT, () => {
-      logger.info(`URL: http://localhost:${PORT} , Environment: ${process.env.NODE_ENV || "development"}            
-      `);
-    });
-  } catch (error) {
-    logger.error("Failed to start server", error);
-    process.exit(1);
-  }
-}
-
-
 process.on("uncaughtException", (error) => {
   logger.error("Uncaught Exception", error);
-  process.exit(1);
 });
 
 process.on("unhandledRejection", (error) => {
   logger.error("Unhandled Rejection", error);
-  process.exit(1);
 });
 
 export default app;
