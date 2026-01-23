@@ -23,21 +23,7 @@ app.use((req, res, next) => {
 
 app.use("/api", routes);
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "Insight-Bridge API 🚀",
-    version: "1.0.0",
-    endpoints: {
-      health: "GET /api/health",
-      stats: "GET /api/stats",
-      ingestion: "POST /api/ingestion/start",
-      search: "POST /api/ingestion/search",
-      articles: "GET /api/articles",
-      article: "GET /api/articles/:id",
-      similar: "GET /api/articles/:id/similar",
-    },
-  });
-});
+app.get('/', (req, res) => res.send('API is running!'));
 
 app.use(notFoundHandler);
 app.use(errorHandler);
