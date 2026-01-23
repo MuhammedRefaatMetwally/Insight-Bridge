@@ -1,4 +1,4 @@
-import { query } from '../repositories/connection';
+import { query } from '../repositories/connection.js';
 import { logger } from '../../utils/logger.js';
 
 export interface Article {
