@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import "./utils/config.js";
-import routes from "./api/routes/ingestion.route";
-import { errorHandler, notFoundHandler } from "./middleware/errorHandlers";
+import routes from "./api/routes/ingestion.route.js";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandlers.js";
 import { logger } from "./utils/logger.js";
-import { testConnection } from "./db/repositories/connection";
+import { testConnection } from "./db/repositories/connection.js";
 
 const app = express();
 
