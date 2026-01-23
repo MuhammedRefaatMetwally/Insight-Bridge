@@ -1,15 +1,22 @@
 {
   "name": "insight-bridge",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI-driven news ingestion backend service",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "echo 'No build step needed for Vercel'",
-    "start": "node dist/index.js"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "vercel-build": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "news",
+    "ai",
+    "gemini",
+    "postgres",
+    "embeddings"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -31,5 +38,9 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
